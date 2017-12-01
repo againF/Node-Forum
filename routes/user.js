@@ -25,7 +25,7 @@ router.post('/reg',auth.checkNotLogin,function(req,res){
        req.flash('error','注册失败');
        return res.redirect('back');
      }else{
-       //实现登陆 如果此客户端在服务器端的session中有user属性的话就表示登陆状态
+       //实现登录 如果此客户端在服务器端的session中有user属性的话就表示登录状态
        req.session.user = doc;
        req.flash('success','注册成功');
        return res.redirect('/');
@@ -42,15 +42,15 @@ router.post('/login',auth.checkNotLogin, function(req, res) {
   user.password = util.md5(user.password);
   Model('User').findOne(user,function(err,doc){
     if(err){
-      req.flash('error','登陆失败');
+      req.flash('error','登录失败');
       return res.redirect('back');
     }else{
       if(doc){
         req.session.user = doc;
-        req.flash('success','登陆成功');
+        req.flash('success','登录成功');
         return res.redirect('/');
       }else{
-        req.flash('error','登陆失败');
+        req.flash('error','登录失败');
         return res.redirect('/user/reg');
       }
     }

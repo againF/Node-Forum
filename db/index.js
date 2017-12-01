@@ -1,7 +1,15 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var settings = require('../settings');
-mongoose.connect(settings.url);
+mongoose.Promise = global.Promise;
+mongoose.connect(settings.url, { useMongoClient: true });
+
+var db = mongoose.connection;
+db.on('error',console.error.bind(console,'connection error:'));
+db.once('open', function() {
+    console.log("connected success!");
+})
+// 源码mongoose.connect(settings.url);
 //用户model
 mongoose.model('User',new mongoose.Schema({
     username:{type:String,isRequired:true},//用户名
